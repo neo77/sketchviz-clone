@@ -14,6 +14,9 @@ class GraphvizEditor {
         this.engineSelect = document.getElementById('engine-select');
         this.sketchyCheckbox = document.getElementById('sketchy-checkbox');
         this.renderBtn = document.getElementById('render-btn');
+        this.saveBtn = document.getElementById('save-btn');
+        this.loadBtn = document.getElementById('load-btn');
+        this.fileInput = document.getElementById('file-input');
         this.downloadBtn = document.getElementById('download-btn');
         this.resizer = document.querySelector('.resizer');
         this.editorPanel = document.querySelector('.editor-panel');
@@ -56,6 +59,21 @@ class GraphvizEditor {
         // Sketchy checkbox change
         this.sketchyCheckbox.addEventListener('change', () => {
             this.renderGraph();
+        });
+
+        // Save button
+        this.saveBtn.addEventListener('click', () => {
+            this.saveCode();
+        });
+
+        // Load button
+        this.loadBtn.addEventListener('click', () => {
+            this.fileInput.click();
+        });
+
+        // File input change
+        this.fileInput.addEventListener('change', (e) => {
+            this.loadCode(e);
         });
 
         // Download button
@@ -355,6 +373,76 @@ class GraphvizEditor {
         } catch (error) {
             console.error('Error roughifying polygon:', error);
         }
+    }
+
+    saveCode() {
+        try {
+            const code = this.codeEditor.value;
+            const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            
+            // Create download link
+            const a = document.createElement('a');
+            a.href = url;
+            
+            // Generate filename with timestamp
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+            a.download = `graphviz-code-${timestamp}.dot`;
+            
+            // Trigger download
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            // Clean up
+            URL.revokeObjectURL(url);
+            
+            console.log('Code saved successfully');
+        } catch (error) {
+            console.error('Error saving code:', error);
+            alert('Failed to save code. Please try again.');
+        }
+    }
+    
+    loadCode(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        // Check file type
+        const validExtensions = ['.dot', '.gv', '.txt'];
+        const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+        
+        if (!validExtensions.includes(fileExtension)) {
+            alert('Please select a valid file (.dot, .gv, or .txt)');
+            return;
+        }
+        
+        const reader = new FileReader();
+        
+        reader.onload = (e) => {
+            try {
+                const content = e.target.result;
+                this.codeEditor.value = content;
+                
+                // Auto-render the loaded code
+                this.renderGraph();
+                
+                console.log('Code loaded successfully');
+            } catch (error) {
+                console.error('Error loading code:', error);
+                alert('Failed to load code. Please try again.');
+            }
+        };
+        
+        reader.onerror = () => {
+            console.error('Error reading file');
+            alert('Failed to read file. Please try again.');
+        };
+        
+        reader.readAsText(file);
+        
+        // Reset file input so the same file can be loaded again
+        event.target.value = '';
     }
 
     downloadGraph() {

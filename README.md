@@ -11,6 +11,7 @@ A web-based Graphviz editor that mimics the functionality and look of sketchviz.
 - **Special Syntax**: Use `*text*` to automatically apply Sedgwick Ave font
 - **Resizable Panes**: Drag the divider to adjust editor and preview sizes
 - **Auto-render**: Automatic rendering with debounced input (1-second delay)
+- **Save/Load Code**: Save your Graphviz code to local files (.dot format) and load them back
 - **Download**: Export graphs as PNG images
 - **Keyboard Shortcuts**: Ctrl/Cmd + Enter to render
 
@@ -63,6 +64,13 @@ npm run dev
 - **Graphviz Rendering**: Viz.js (WebAssembly port of Graphviz)
 - **Sketchy Effects**: RoughJS
 - **Fonts**: Google Fonts (Tinos, Handlee, Sedgwick Ave)
+
+## Save/Load Functionality
+
+- **Save Code**: Click "Save Code" to download your current Graphviz code as a .dot file with timestamp
+- **Load Code**: Click "Load Code" to upload and load a .dot, .gv, or .txt file
+- **Supported Formats**: .dot (Graphviz), .gv (Graphviz), .txt (plain text)
+- **Auto-render**: Loaded code is automatically rendered upon successful loading
 
 ## Sketchy Mode
 
