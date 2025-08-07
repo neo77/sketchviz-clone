@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphviz Editor - Sketchviz Clone</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tinos:wght@400;700&family=Handlee&family=Sedgwick+Ave&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Graphviz Editor</h1>
+        <div class="controls">
+            <label for="engine-select">Engine:</label>
+            <select id="engine-select">
+                <option value="dot">dot</option>
+                <option value="neato">neato</option>
+                <option value="twopi">twopi</option>
+                <option value="circo">circo</option>
+                <option value="fdp">fdp</option>
+                <option value="osage">osage</option>
+            </select>
+            <label class="checkbox-label">
+                <input type="checkbox" id="sketchy-checkbox">
+                Sketchy
+            </label>
+            <button id="render-btn">Render</button>
+            <button id="download-btn">Download PNG</button>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="editor-panel">
+            <div class="panel-header">
+                <h3>Graphviz Code</h3>
+            </div>
+            <textarea id="code-editor" placeholder="Enter your Graphviz code here...">digraph G {
+    A [label="Node A"];
+    B [label="Node B"];
+    C [label="*Sketchy Font*", fontname="Handlee"];
+    D [label="Node D"];
+    
+    A -> B [label="connects to"];
+    B -> C;
+    C -> A;
+    A -> D [label="*sketchy edge*"];
+    D -> B;
+}</textarea>
+        </div>
+        
+        <div class="resizer"></div>
+        
+        <div class="preview-panel">
+            <div class="panel-header">
+                <h3>Graph Preview</h3>
+            </div>
+            <div id="graph-output">
+                <div class="placeholder">Graph will appear here...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/viz.js@2.1.2/viz.js"></script>
+    <script src="https://unpkg.com/viz.js@2.1.2/full.render.js"></script>
+    <script src="https://unpkg.com/roughjs@4.5.2/bundled/rough.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
