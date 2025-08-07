@@ -67,7 +67,7 @@ npm run dev
 
 ## Save/Load Functionality
 
-- **Save Code**: Click "Save Code" to download your current Graphviz code as a .dot file with timestamp
+- **Save Code**: Click "Save Code" to download your current Graphviz code as a .dot file with custom filename
 - **Load Code**: Click "Load Code" to upload and load a .dot, .gv, or .txt file
 - **Supported Formats**: .dot (Graphviz), .gv (Graphviz), .txt (plain text)
 - **Auto-render**: Loaded code is automatically rendered upon successful loading

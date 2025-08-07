@@ -378,16 +378,37 @@ class GraphvizEditor {
     saveCode() {
         try {
             const code = this.codeEditor.value;
+            
+            // Ask user for filename
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+            const defaultFilename = `graphviz-code-${timestamp}`;
+            
+            let filename = prompt('Enter filename (without extension):', defaultFilename);
+            
+            // If user cancelled or entered empty string, use default
+            if (filename === null) {
+                return; // User cancelled
+            }
+            
+            if (filename.trim() === '') {
+                filename = defaultFilename;
+            }
+            
+            // Clean filename - remove invalid characters
+            filename = filename.trim().replace(/[<>:"/\\|?*]/g, '-');
+            
+            // Ensure .dot extension
+            if (!filename.toLowerCase().endsWith('.dot')) {
+                filename += '.dot';
+            }
+            
             const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             
             // Create download link
             const a = document.createElement('a');
             a.href = url;
-            
-            // Generate filename with timestamp
-            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
-            a.download = `graphviz-code-${timestamp}.dot`;
+            a.download = filename;
             
             // Trigger download
             document.body.appendChild(a);
@@ -397,7 +418,7 @@ class GraphvizEditor {
             // Clean up
             URL.revokeObjectURL(url);
             
-            console.log('Code saved successfully');
+            console.log(`Code saved successfully as: ${filename}`);
         } catch (error) {
             console.error('Error saving code:', error);
             alert('Failed to save code. Please try again.');
