@@ -4,6 +4,9 @@ const path = require('path');
 
 const DOTFILES_DIR = './dotfiles';
 
+const app = express();
+const PORT = process.env.PORT || 3000;
+
 app.use(express.json());
 
 // Ensure the dotfiles directory exists
@@ -12,7 +15,7 @@ if (!fs.existsSync(DOTFILES_DIR)) {
 }
 
 // Endpoint to save a dotfile
-app.post('/save-dotfile', (req, res) => {
+app.post('/api/save-dotfile', (req, res) => {
   const { filename, content } = req.body;
   if (!filename || !content) {
     return res.status(400).send('Filename and content are required');
@@ -26,7 +29,7 @@ app.post('/save-dotfile', (req, res) => {
 });
 
 // Endpoint to load a dotfile
-app.get('/load-dotfile', (req, res) => {
+app.get('/api/load-dotfile', (req, res) => {
   const { filename } = req.query;
   if (!filename) {
     return res.status(400).send('Filename is required');
@@ -39,13 +42,6 @@ app.get('/load-dotfile', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-const path = require('path');
-
-const app = express();
-const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(express.json());
