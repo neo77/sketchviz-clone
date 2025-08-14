@@ -18,6 +18,7 @@ if (!fs.existsSync(DOTFILES_DIR)) {
 app.post('/api/save-dotfile', (req, res) => {
   const { filename, content } = req.body;
   if (!filename || !content) {
+    console.log('err fn content' + '|' + filename + '|' + content)
     return res.status(400).send('Filename and content are required');
   }
   fs.writeFile(path.join(DOTFILES_DIR, filename), content, (err) => {
